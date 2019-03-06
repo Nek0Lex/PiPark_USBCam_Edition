@@ -58,8 +58,6 @@ def setup_camera(is_fullscreen = True):
     #camera.exposure_mode = "off"
 
     camera = cv2.VideoCapture(0)
-    camera.set(3, s.PICTURE_RESOLUTION[0])
-    camera.set(4, s.PICTURE_RESOLUTION[1])
 
     #if not is_fullscreen: camera.preview_window = s.CAMERA_WINDOW_SIZE
     time.sleep(s.WAKEUP_DELAY)  # camera wake-up time: setting delay
@@ -115,15 +113,25 @@ def get_area_average(pixels, x, y, w, h):
     
     # setup variables
     totals = [0, 0, 0, 0]
-    
+
+    #print '!!!x = ', x, 'w = ', w, 'y = ', y, 'h = ', h
+
+
     # for each pixel in the defined area total up the RGB values and then 
     # calculate the average of each. Finally calculate the average of all three
     # values as the last element of the list 'totals'.
-    for cx in range(x, x + w):
-        for cy in range(y, y + h):
-            for i in range(3):
-                totals[i] += pixels[cx, cy][i]
-    
+    try:
+        for cx in range(x, x + w):
+            # print 'x = ', x, 'w = ', w
+            for cy in range(y, y + h):
+                # print 'y = ', y, 'h = ', h
+                for i in range(3):
+                    totals[i] += pixels[cx, cy][i]
+                    # print 'cx = ', cx, 'cy = ', cy
+    except Exception, e:
+        print str(e)
+        print 'x = ', x, 'w = ', w, 'y = ', y, 'h = ', h, 'cx = ', cx, 'cy = ', cy
+
     # calculate average RGB values by dividing cumulative totals by total
     # number of pixels
     num_pixels = w * h

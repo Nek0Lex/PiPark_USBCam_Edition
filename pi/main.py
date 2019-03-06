@@ -11,6 +11,7 @@ import thread
 import time
 import urllib
 import cv2
+import numpy
 
 
 from PIL import Image, ImageTk
@@ -67,7 +68,7 @@ class MainApplication(tk.Frame):
         
         # give application a reference to the global camera object
         global camera
-        self.__camera = camera
+        self.__camera = cv2.VideoCapture(0)
         #self.__camera.awb_mode = 'auto'
         #self.__camera.exposure_mode = 'auto'
         
@@ -319,8 +320,8 @@ def run():
         
         # capture new image & save to specified location
         # TODO change to usb cam
-        #camera.capture(image_location)
-
+        # camera.capture(image_location)
+        camera = cv2.VideoCapture(0)
         ret, frame = camera.read()
         cv2.imwrite(image_location, frame)
         camera.release()
@@ -356,7 +357,7 @@ def run():
             space_averages.append(space_average)
         
         
-        if s.IS_VERBOSE: print ""  # line break
+        if s.IS_VERBOSE: print ""
 
         # setup CP dimensions and averages and, if verbose, print to terminal
         for control in control_boxes:
@@ -376,7 +377,7 @@ def run():
                 control_y, 
                 control_w, 
                 control_h
-                )
+            )
             control_averages.append(control_average)
             
             
